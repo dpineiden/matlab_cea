@@ -2,10 +2,9 @@
 %Directorio_Padre: entrada string que es el directorio a partir del cual se
 %hace el analisis de archivos dnetro de este.
 %Nivel es un índice para nombrar los archivos
-function [nietos_Path directorios]=listar_nietos_directorio(Directorio_Padre,Nivel)
+function [nietos_Path directorios]=listar_nietos_directorio(Directorio_Padre,Nivel,BaseDir)
 cd(Directorio_Padre);
 cd('..')
-BaseDir=pwd;
 Log='Logs';
 %Hijo es el numero de Directorio Hijo 
 cd(Directorio_Padre);
@@ -61,12 +60,14 @@ Q=1;
         %se obtienen los valores de línea actual y siguiente directorio
         %siempre k es mayor que m ya que corresponde a una linea posterior
         %en lista_archivos
-
-                    if Q<length(n_linea_dir)
+       Q
+       length(n_linea_dir)
+       n_linea_dir
+                    if Q<=length(n_linea_dir)
                     m=n_linea_dir(Q);%linea de primer directorio
                      %linea de siguiente directorio
                     if length(n_linea_dir)<=1;
-                      k=3;
+                      k=3
                     else
                       k=n_linea_dir(Q+1);
                     end    
@@ -76,10 +77,6 @@ Q=1;
         %y directorios dentro de directorios hijo; en conjunto con una
         %lista de archivos hijos del directorio.
                     Directorio=lin_dir{Q};
-                    {nuevo_a,
-                    m,
-                    k,
-                    W};
                     %analizar:                    
                    if (m+4<=nuevo_a) &&(nuevo_a<=k-2) && W>=n_linea_dir(1)-2 && ~strcmp('fin de linea (+1)',Directorio)
                        %&linealeida=leer_linea_A(N_A)

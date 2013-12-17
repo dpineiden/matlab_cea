@@ -24,7 +24,7 @@ while ~feof(fid)
     if eq(leer_linea(1:5),'total')
        es_Directorio{i}=linea_anterior(1:length(linea_anterior)-1); 
        n_linea_dir(i)=n_linea-1;
-       lin_dir{i,1}=[num2str(n_linea_dir(i)),'|',es_Directorio{i},'\n'];
+       lin_dir{i,1}=[num2str(n_linea_dir(i)),'|',Directorio_Padre,'/',es_Directorio{i},'\n'];
        i=i+1;
     end
     end
