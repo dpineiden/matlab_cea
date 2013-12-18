@@ -1,11 +1,11 @@
-pwd
+
 %definir directorio de trabajo
-directorio=uigetdir('');
 %setear en este directorio
 %Nombre del Proceso
-Nombre_Proceso='test';
-%se desean guardar las variables en .mat? 0:no, 1:si
-var_mat=0;
+%se desean guardar las variables en .mat?savemat 0:no, 1:si
+function [NDVI]=ndvi(BaseDir,MLTDIR,savemat,Nombre_Proceso)
+cd(BaseDir);
+var_mat=savemat;
 Carpeta_output='Output';%salida, guardar resultados
 i=1;
 Landsat=5;
@@ -35,3 +35,4 @@ geotiffwrite(savefile_TIF,I_16b,INFO,'GeoKeyDirectoryTag',UTM.geokey);
 savefile_PNG=strcat(Carpeta_output,'/',Nombre_Proceso,'/',COD_SAT_IMG,'.PNG');
 imwrite(I_16b,savefile_PNG,'png');
 Info_png=imfinfo(savefile_PNG);
+end

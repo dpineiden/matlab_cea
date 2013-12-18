@@ -37,7 +37,7 @@ for i=2:n
     fclose(FID_D);
 end
     for j=1:d-2
-        Nuevo_dir=nombre_carpeta{j}
+     Nuevo_dir=nombre_carpeta{j}
     [nietos_Path directorios]=listar_nietos_directorio(Nuevo_dir,Nivel,BaseDir);
     end
 h2=contar_txt(Directorio_Padre,hijo);
