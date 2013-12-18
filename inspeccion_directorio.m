@@ -7,19 +7,19 @@ Nivel=1;
 %hijas del directorio
 hijo='hijo';
 str='|';
-h1=contar_txt(Directorio_Padre,hijo)
-h2=h1+1;
-while h2>h1
-    Nivel=Nivel+1
+h1=contar_txt(Directorio_Padre,hijo);
+h2=h1;
+while h2<=h1
 %inspeccion es la ruta del archivo que contiene la lista completa
-[nietos_Path directorios]=listar_nietos_directorio(Directorio_Padre,Nivel,BaseDir)
+DP=Directorio_Padre
+[nietos_Path directorios]=listar_nietos_directorio(Directorio_Padre,Nivel,BaseDir);
 %inspeccionar cada lista de directorio
 h1=contar_txt(Directorio_Padre,hijo);
-[n m]=size(directorios)
+[n m]=size(directorios);
+Nivel=Nivel+1
 for i=2:n
     %entregar el índice si hay carpetas dentro de directorio.
-    i
-    archivo_dir=directorios{i,1}
+    archivo_dir=directorios{i-1,1}
     FID_D=fopen(archivo_dir,'r');
     %extraer linea
     d=1;
@@ -38,9 +38,9 @@ for i=2:n
 end
     for j=1:d-2
         Nuevo_dir=nombre_carpeta{j}
-    [nietos_Path directorios]=listar_nietos_directorio(Nuevo_dir,Nivel,BaseDir)
+    [nietos_Path directorios]=listar_nietos_directorio(Nuevo_dir,Nivel,BaseDir);
     end
-h2=contar_txt(Directorio_Padre,hijo)
+h2=contar_txt(Directorio_Padre,hijo);
 end
 inspeccion='archivos_total.txt';
 end

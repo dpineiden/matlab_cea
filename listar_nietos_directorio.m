@@ -60,9 +60,8 @@ Q=1;
         %se obtienen los valores de línea actual y siguiente directorio
         %siempre k es mayor que m ya que corresponde a una linea posterior
         %en lista_archivos
-       Q
-       length(n_linea_dir)
-       n_linea_dir
+       length(n_linea_dir);
+       n_linea_dir;
                     if Q<=length(n_linea_dir)
                     m=n_linea_dir(Q);%linea de primer directorio
                      %linea de siguiente directorio
@@ -76,7 +75,7 @@ Q=1;
         %entregando un analisis de los directorios hijos: lista de archivos
         %y directorios dentro de directorios hijo; en conjunto con una
         %lista de archivos hijos del directorio.
-                    Directorio=lin_dir{Q};
+                    Directorio=lin_dir{Q}
                     %analizar:                    
                    if (m+4<=nuevo_a) &&(nuevo_a<=k-2) && W>=n_linea_dir(1)-2 && ~strcmp('fin de linea (+1)',Directorio)
                        %&linealeida=leer_linea_A(N_A)
@@ -87,7 +86,7 @@ Q=1;
 %PARA DIRECTORIOS HIJOS NO OCULTOS
                         if strcmp(Dir_char,char(leer_linea_A(N_A))) && ~strcmp('./',char(leer_linea_A(N_A-1:N_A)))                     
                             %si existe un directorio al interior hay un nuevo
-                        Directorio_Padre=strcat(DirectorioInicial,'/',Directorio);
+                        Directorio_Padre=Directorio;
                         Nuevo_Directorio=leer_linea_A(k_espacio+1:N_A-1);
                         Directorio_Hijo=[Directorio_Padre,Dir_char,Nuevo_Directorio];
                         Hijo=Hijo+1;
@@ -98,9 +97,9 @@ Q=1;
 %PARA ARCHIVOS DENTRO DE DIRECTORIO HIJO NO OCULTOS
                         elseif ~strcmp(Dir_char,char(leer_linea_A(N_A-1:N_A))) && ~strcmp('.',char(leer_linea_A(k_espacio+1)))
                          %listar los archivos hijos del directorio hijo
-                        Directorio_Padre=strcat(DirectorioInicial,'/',Directorio);    
+                        Directorio_Padre=strcat(Directorio)    
                         %guardar archivos txt con nombre nuevo 
-                        Nuevo_Archivo{nuevo_a,1}=[Directorio_Padre,Dir_char,leer_linea_A(k_espacio+1:N_A),'\n'];  
+                        Nuevo_Archivo{nuevo_a,1}=[Directorio,Dir_char,leer_linea_A(k_espacio+1:N_A),'\n'];  
                         fid=fopen(txt_lista_NA,'a+');%crear o abrir archivo lista.txt agregando al final de lista
                         %actualizando lista de archivos en directorio
                         fprintf(fid,Nuevo_Archivo{nuevo_a,1});
@@ -111,11 +110,12 @@ Q=1;
                     %listados desde la primera linea hasta la linea 'm' de
                     %lista_archivos, leer desde 1 a m-2.
 %PARA ARCHIVOS DENTRO DE DIRECTORIO PADRE                    
-                   elseif n_linea_dir(1)>1 && nuevo_a<n_linea_dir(1)-1  && W<n_linea_dir(1)-2
+                   elseif n_linea_dir(2)>1 && nuevo_a<n_linea_dir(2)-1  && W<n_linea_dir(2)-2
                        W=1+W;
                         %guardar archivos txt con nombre nuevo 
+                        Blabla=Directorio;
                         Archivo=leer_linea_A(k_espacio+1:N_A);
-                        Nuevo_Archivo{nuevo_a,1}=[Directorio_Padre,Dir_char,leer_linea_A(k_espacio+1:N_A),'\n'];
+                        Nuevo_Archivo{nuevo_a,1}=[Directorio,Dir_char,leer_linea_A(k_espacio+1:N_A),'\n'];
                         fid=fopen(txt_lista_NA,'a+');%crear o abrir archivo lista.txt agregando al final de lista
                         %actualizando lista de archivos en directorio
                         fprintf(fid,Nuevo_Archivo{nuevo_a,1});
