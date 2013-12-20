@@ -3,7 +3,7 @@
 %setear en este directorio
 %Nombre del Proceso
 %se desean guardar las variables en .mat?savemat 0:no, 1:si
-function NDVI=ndvi(BaseDir,MLTDIR,savemat,Nombre_Proceso)
+function NDVI=ndvi(BaseDir,MTLDIR,savemat,Nombre_Proceso)
 cd(BaseDir);
 var_mat=savemat;
 Carpeta_output='Output';%salida, guardar resultados

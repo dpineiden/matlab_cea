@@ -7,11 +7,16 @@
 %entregar Path
 %Entregar hemisferio
 
-function [R_l,L_l,DN7,UTM,COD_SAT_IMG,R]=reflactancia(Banda,Landsat,Path,Hemisferio,Nombre_Proceso)
+function [R_l,L_l,DN7,UTM,COD_SAT_IMG,R]=reflactancia(Banda,Landsat,Path,MTLDIR,Hemisferio,Nombre_Proceso)
+cd(Path);
+cd('..');
+BaseDir=pwd;
+MTLDIR;
 %crear carpeta de proceso en Log
 [status_1,message_1,messageid_1] = mkdir('Logs',Nombre_Proceso);
 %crear carpeta de proceso en Output
 [status_2,message_2,messageid_2] = mkdir('Output',Nombre_Proceso);
+cd(Path);
 %valores slope para conversion DN5 a NDN7
 %Hemisferio Sur
 %Bajo la formula DN7=(slope*DN5)+intercep
@@ -34,8 +39,11 @@ Esun_l=[1997,1812,1533,1039,2260.8,0,84.9];
 %cargar la elevación solar _MTL.txt
 %buscar por angulo elevacion solar 'SUN_ELEVATION' entregar valor a la derecha de '='
 %buscar dia y hora por 'DATE_HOUR_CONTACT_PERIOD'
+Path;
+cd(Path);
+cd(MTLDIR);
 %se entrega en degrees y fecha YY-DDD-HH DDD el dia del año
-Carpeta_img=Path;
+Carpeta_img=pwd;
 %listar archivos txt
 archivo_MTL=get_list_files(Carpeta_img,'*_MTL.txt');
 archivoMTL=char(archivo_MTL);
@@ -59,6 +67,7 @@ L1=length(Nombres_Valores);
 L2=length(Nombres_Obtenidos);
 min_l1l2=min([L1,L2]);
 Log_MTL=['Logs/',Nombre_Proceso,'/log_mtl.txt'];
+cd(BaseDir);
 fid_mtl = fopen(Log_MTL,'a+');
 Hora=fix(clock);
 String_hora=[num2str(Hora(1)),'/',num2str(Hora(2)),'/',num2str(Hora(3)),' a las ',num2str(Hora(4)),':',num2str(Hora(5)),' hrs'];

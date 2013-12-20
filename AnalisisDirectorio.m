@@ -35,4 +35,23 @@ fprintf(FID,MTLset{i,1});
 end
 fclose(FID);
 
+FID=fopen([RutaLog,'/',archivos_MTL],'r');
+
 savemat=0;
+Proceso='proyecto'
+
+
+  str='/';
+
+  
+  
+while ~feof(fid)
+MTL_lin=fgetl(fid);
+patron=MTL_lin;
+k_str=strfind(patron,str);
+n= length(k_str);
+MTLDIR=MTL_lin(1:k_str(length(k_str)));
+NDVI=ndvi(BaseDir,MTLDIR,savemat,Proceso);
+pack;
+end
+fclose(FID);
