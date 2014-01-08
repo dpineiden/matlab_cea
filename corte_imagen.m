@@ -1,5 +1,5 @@
 
-function [IMc X R INFO]=corte_imagen(BaseDir,Ruta,File,nombre_corte,UTM_x,UTM_y,largo_pixel)
+function [IMc, X ,R , INFO]=corte_imagen(BaseDir,File,UTM_x,UTM_y)
 [X, R] = geotiffread(File);
 %cortar seccion definida
 cd(BaseDir);
@@ -13,6 +13,7 @@ UTM.tipo=INFO.Projection;
 %pasa coordenadas a deg utm 19 N a deg
 [x,y] = R.intrinsicToWorld(R.XLimIntrinsic,R.YLimIntrinsic)
 %lognitud pixel largo-ancho [m]
+largo_pixel= INFO.GeoTIFFTags.ModelPixelScaleTag(1);
 p=largo_pixel; %en metros
 %entregar los dos puntos limite del corte
 %X_a__dx_1___
@@ -35,10 +36,10 @@ p=largo_pixel; %en metros
 X_1=UTM_x;
 X_2=UTM_y;
 
-left=abs(x(1)-X_1(1))/p
-right=abs(x(1)-X_1(2))/p
-upper=abs(y(1)-X_2(1))/p
-lower=abs(y(1)-X_2(2))/p
+left=round(abs(x(1)-floor(X_1(1)/p)*p)/p)
+right=round(abs(x(1)-ceil(X_1(2)/p)*p)/p)
+upper=round(abs(y(1)-floor(X_2(1)/p)*p)/p)
+lower=round(abs(y(1)-ceil(X_2(2)/p)*p)/p)
 % 
 % [left_long, upper_lat] = projfwd(INFO, X_1(2), X_1(1))
 % [right_long, lower_lat] = projfwd(INFO, X_2(2), X_2(1))

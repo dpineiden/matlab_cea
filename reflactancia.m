@@ -7,7 +7,7 @@
 %entregar Path
 %Entregar hemisferio
 
-function [R_l,L_l,DN7,UTM,COD_SAT_IMG,R]=reflactancia(Banda,Landsat,Path,MTLDIR,Hemisferio,Nombre_Proceso)
+function [R_l,L_l,DN7,UTM,COD_SAT_IMG,R]=reflactancia(Banda,Landsat,Path,MTLDIR,Hemisferio,Nombre_Proceso,CorteX,CorteY)
 cd(Path);
 cd('..');
 BaseDir=pwd;
@@ -97,11 +97,16 @@ distancia_ts=d(dia);% en unidadddes astronomicas
 Busqueda=strcat('*_B',num2str(Banda),'.TIF');
 archivo=get_list_files(Carpeta_img,Busqueda);
 FilePath=char(strcat(Carpeta_img,'/',archivo));
+INFO = geotiffinfo(FilePath);
+
+if ~strcmp(CorteX,'') | ~strcmp(CorteY,'')
+[IMc X R INFO]=corte_imagen(BaseDir,File,CorteX,CorteY);
+else
 [X, R] = geotiffread(FilePath);
+end
 %X es la matriz con valores 0 a 255 8bit, grayscale= 2 dim
 %CMAP es el mapa de colores
 %R es la referencia geoespacial
-INFO = geotiffinfo(FilePath);
 UTM.geokey=INFO.GeoTIFFTags.GeoKeyDirectoryTag;
 UTM.tipo=INFO.Projection;
 %pasa coordenadas a deg utm 19 N a deg

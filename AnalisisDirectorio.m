@@ -1,7 +1,7 @@
 %leer directorio en que se encuentran las imágenes:
 BaseDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat';
-Directorio='img_proyecto';
-ProjectDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/img_proyecto';
+Directorio='DesAtacama';
+ProjectDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/DesAtacama/233_076';
 cd(ProjectDir);
 [A lista]=unix(['find -name *.txt']);
 RutaLog=[BaseDir,'/Logs'];
@@ -27,24 +27,17 @@ while ~feof(fid)
     %se descomprime aqui el archivo (dentro de carpeta)
 end
 fclose(fid);
-archivos_MTL='archivos_MTL.txt';
+archivos_MTL=['archivos_MTL_' Directorio '.txt'];
 [a b]=size(MTLset);
 FID=fopen([RutaLog,'/',archivos_MTL],'w+');
 for i=1:a
 fprintf(FID,MTLset{i,1});
 end
 fclose(FID);
-
 FID=fopen([RutaLog,'/',archivos_MTL],'r');
-
 savemat=0;
 Proceso='proyecto'
-
-
-  str='/';
-
-  
-  
+  str='/';  
 while ~feof(fid)
 MTL_lin=fgetl(fid);
 patron=MTL_lin;

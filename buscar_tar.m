@@ -1,8 +1,10 @@
 BaseDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat';
-Directorio='img_ZonaControl';
-DirectorioFin='img_proyecto';
-Directorio_Padre=[BaseDir,'/',Directorio];
-[A lista]=unix(['find ',Directorio_Padre,' -name *.tar.gz']);
+Directorio='DesAtacama';
+DirectorioFin='DesAtacama/Imagenes';
+Dir_tar='Imagenes/Comp';
+Directorio_Padre=[BaseDir,'/',Directorio,'/',Dir_tar];
+cd(Directorio_Padre);
+[A lista]=unix(['find -name *.tar.gz']);
 %guardar lista en archivos
 archivos_targz='archivos_targz.txt';
 RutaLog=[BaseDir,'/Logs'];
@@ -15,7 +17,6 @@ NewDir=DirectorioFin;
 unix(['mkdir ',BaseDir,'/',NewDir]);
 fid=fopen([RutaLog,'/',archivos_targz],'r');
 while ~feof(fid)
-    cd(BaseDir);
     leer_linea=fgetl(FID); 
     indice=1;
     nombre=desmembrar(leer_linea,'/');
@@ -25,7 +26,7 @@ while ~feof(fid)
             indice=j;
         end
     end
-    cd(NewDir)
+    cd([BaseDir,'/',DirectorioFin]);
     for j=indice+1:a-1        
         unix(['mkdir ',nombre{j,1}]);
         cd(nombre{j,1});
@@ -34,8 +35,9 @@ while ~feof(fid)
         unix(['mkdir ',nombre_toma(1:length(nombre_toma)-7)]);
         cd(nombre_toma(1:length(nombre_toma)-7));
     %se han creado las carpetas
+    line_tar=[BaseDir,'/',Directorio,'/',Dir_tar,leer_linea(2:length(leer_linea))];
     %se descomprime aqui el archivo (dentro de carpeta)
-    unix(['tar -xvf ',leer_linea]); 
-    
+    unix(['tar -xf ',line_tar]); 
+    unix(['rm ',line_tar]);
 end
 fclose(fid);
