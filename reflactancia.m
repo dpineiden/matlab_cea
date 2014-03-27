@@ -7,7 +7,7 @@
 %entregar Path
 %Entregar hemisferio
 
-function [R_l,L_l,DN7,UTM,COD_SAT_IMG,R]=reflactancia(Banda,Landsat,Path,MTLDIR,Hemisferio,Nombre_Proceso,CorteX,CorteY)
+function [R_l,L_l,DN7,UTM,COD_SAT_IMG,INFO,R]=reflactancia(Banda,Landsat,Path,MTLDIR,Hemisferio,Nombre_Proceso,CorteX,CorteY)
 cd(Path);
 cd('..');
 BaseDir=pwd;
@@ -55,7 +55,7 @@ FilePath=char(strcat(Carpeta_img,'/',archivo_MTL));
 if Landsat==7
 %Para DN7
 Nombres_Valores={'SUN_ELEVATION','DATE_HOUR_CONTACT_PERIOD'};
-elseif Landsat==5
+elseif Landsat==5 || Landsat == 8
 %Para DN5
 Nombres_Valores={'SUN_ELEVATION','LANDSAT_SCENE_ID'};
 end
@@ -99,8 +99,11 @@ archivo=get_list_files(Carpeta_img,Busqueda);
 FilePath=char(strcat(Carpeta_img,'/',archivo));
 INFO = geotiffinfo(FilePath);
 
-if ~strcmp(CorteX,'') | ~strcmp(CorteY,'')
-[IMc X R INFO]=corte_imagen(BaseDir,File,CorteX,CorteY);
+if ~strcmp(CorteX,'') || ~strcmp(CorteY,'')
+[IMc,Rc, X, R, INFOx]=corte_imagen(BaseDir,FilePath,CorteX,CorteY);
+X=IMc;
+[a v]=size(X);
+R=Rc;
 else
 [X, R] = geotiffread(FilePath);
 end
@@ -135,8 +138,8 @@ for i=1:n
             if Landsat==5
              %los valores de DN7
             DN7(i,j)=(Slope(Banda)*X(i,j))+Intercep(Banda);
-            else
-            DN7(i,j)=X(i,j);    
+            elseif Landsat == 7 || Landsat == 8
+            DN7(i,j)=X(i,j);   
             end
             %la radianza es entonces
             L_l(i,j)=Gain_radiance(Banda)*DN7(i,j)+Bias_radiance(Banda);

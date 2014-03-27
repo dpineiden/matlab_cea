@@ -1,7 +1,7 @@
 %leer directorio en que se encuentran las imágenes:
 BaseDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat';
-Directorio='DesAtacama';
-ProjectDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/DesAtacama/233_076';
+Directorio='ANG006_IMG';
+ProjectDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/ANG006_IMG/IMG';
 cd(ProjectDir);
 [A lista]=unix(['find -name *.txt']);
 RutaLog=[BaseDir,'/Logs'];

@@ -1,7 +1,9 @@
 BaseDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat';
-Directorio='DesAtacama';
-DirectorioFin='DesAtacama/Imagenes';
-Dir_tar='Imagenes/Comp';
+Directorio='ANG006_IMG';
+%directorio en donde se guardan las imag descomprimidas
+DirectorioFin='ANG006_IMG/IMG';
+%directorio de imagenes comprimidas
+Dir_tar='IMG_COMP';
 Directorio_Padre=[BaseDir,'/',Directorio,'/',Dir_tar];
 cd(Directorio_Padre);
 [A lista]=unix(['find -name *.tar.gz']);
