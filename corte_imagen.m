@@ -2,10 +2,12 @@
 function [IMc, Rc, X ,R , INFO]=corte_imagen(BaseDir,File,UTM_x,UTM_y)
 %cortar seccion definida
 
-
 [X, R] = geotiffread(File);
 cd(BaseDir);
+pwd;
+if ~isdir('Cortes_Imagenes')
 mkdir('Cortes_Imagenes');
+end
 cd('Cortes_Imagenes');
 ruta_actual=pwd;
 INFO = geotiffinfo(File);
@@ -58,8 +60,8 @@ right=find(Xr==UTM_x(2),1);
 upper=find(Yr==UTM_y(1),1);
 lower=find(Yr==UTM_y(2),1);
 
-Rc.YLimWorld=[Yr(min(upper,lower)) Yr(max(upper,lower))];
-Rc.XLimWorld=[Xr(min(left,right)) Xr(max(left,right))];
+Rc.YLimWorld=[Yr(min(upper,lower)) Yr(max(upper,lower))]
+Rc.XLimWorld=[Xr(min(left,right)) Xr(max(left,right))]
 
 % 
 % [left_long, upper_lat] = projfwd(INFO, X_1(2), X_1(1))

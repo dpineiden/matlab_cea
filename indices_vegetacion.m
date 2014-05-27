@@ -127,7 +127,7 @@ end
 
 if var_mat==1
 savefile=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'/',COD_SAT_IMG,'.mat');
-save(savefile,'R_l','L_l','DN7','UTM','IndiceVegetacion');
+save(savefile,'R_l','L_l','DN7','UTM','IndiceVegetacion','R','INFO');
 end
 
 

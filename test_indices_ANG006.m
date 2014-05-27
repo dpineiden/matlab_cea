@@ -31,7 +31,7 @@ nombres=desmembrar(INFO.nir.Filename,'/');
 COD_SAT_IMG=char(nombres(length(nombres)-1));
 BitDepth=16;
 %guarda imagen NDVI
-Im=1
+Im=1;
  IM=mat2gray(IndiceVegetacion.NDVI,[min(IndiceVegetacion.NDVI(:)) max(IndiceVegetacion.NDVI(:))]); 
 Lista_NDVI{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.NDVI(:)),',',max(IndiceVegetacion.NDVI(:))};
  %IM=mat2gray(IndiceVegetacion.NDVI,[-1 1]); 
@@ -42,7 +42,7 @@ Lista_NDVI{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.NDVI(:)),',',max(IndiceVeg
 IM=[];
 Ib=[];
  %guarda imagen SR
- Im=2 
+ Im=2 ;
  IM=mat2gray(IndiceVegetacion.SR,[min(IndiceVegetacion.SR(:)) max(IndiceVegetacion.SR(:))]); 
  Lista_SR{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.SR(:)),',',max(IndiceVegetacion.SR(:))};
  %IM=mat2gray(IndiceVegetacion.SR,[0 2^BitDepth]); 
@@ -54,7 +54,7 @@ Ib=[];
   IM=[];
 Ib=[];
   %guarda imagen NDWI
-  Im=3
+  Im=3;
   IM=mat2gray(IndiceVegetacion.NDWI,[min(IndiceVegetacion.NDWI(:)) max(IndiceVegetacion.NDWI(:))]); 
   Lista_NDWI{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.NDWI(:)),',',max(IndiceVegetacion.NDWI(:))};
  %IM=mat2gray(IndiceVegetacion.NDWI,[-1 1]); 
@@ -65,7 +65,7 @@ Ib=[];
   IM=[];
 Ib=[];
   %guarda imagen SAVI 0.3
-  Im=4
+  Im=4;
   IM=mat2gray(IndiceVegetacion.SAVI_03,[min(IndiceVegetacion.SAVI_03) max(IndiceVegetacion.SAVI_03)]); 
   Lista_SAVI_03{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.SAVI_03),',',max(IndiceVegetacion.SAVI_03)};
  %IM=mat2gray(IndiceVegetacion.NDWI,[-1 1]); 
@@ -76,7 +76,7 @@ Ib=[];
   IM=[];
 Ib=[];
   %guarda imagen SAVI 0.5
-  Im=5
+  Im=5;
   IM=mat2gray(IndiceVegetacion.SAVI_05,[min(IndiceVegetacion.SAVI_05) max(IndiceVegetacion.SAVI_05)]); 
   Lista_SAVI_05{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.SAVI_05),',',max(IndiceVegetacion.SAVI_05)};
  %IM=mat2gray(IndiceVegetacion.NDWI,[-1 1]); 
@@ -87,7 +87,7 @@ Ib=[];
     IM=[];
 Ib=[];
   %guarda imagen MSI
-  Im=6
+  Im=6;
   IM=mat2gray(IndiceVegetacion.MSI,[min(IndiceVegetacion.MSI(:)) max(IndiceVegetacion.MSI(:))]); 
   Lista_MSI{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.MSI(:)),',',max(IndiceVegetacion.MSI(:))};
  %IM=mat2gray(IndiceVegetacion.NDWI,[-1 1]); 
@@ -98,7 +98,7 @@ Ib=[];
     IM=[];
 Ib=[];
   %guarda imagen II
-  Im=7
+  Im=7;
   IM=mat2gray(IndiceVegetacion.II,[min(IndiceVegetacion.II(:)) max(IndiceVegetacion.II(:))]); 
   Lista_II{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.II(:)),',',max(IndiceVegetacion.II(:))};
  %IM=mat2gray(IndiceVegetacion.NDWI,[-1 1]); 

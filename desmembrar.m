@@ -5,9 +5,9 @@ function nombre=desmembrar(Ruta, Signo)
   str=Signo;
   k_str=strfind(patron,str);
   n= length(k_str);
+
   for i=1:n-1
      nombre{i,1}=Ruta(k_str(i)+1:k_str(i+1)-1); 
   end
   nombre{n,1}=Ruta(k_str(n)+1:length(Ruta));
-
-end
+  end
