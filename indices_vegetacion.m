@@ -42,7 +42,7 @@ for i=1:m
 
     end
 end
-
+R_l=R_l+1;%% pasar de 0 a 255 a 1 a 256 (para evitar divisiones por 0 proximamente)
 IndiceVegetacion.NDVI=0;
 IndiceVegetacion.SR=0;
 IndiceVegetacion.DVI=0;
@@ -64,7 +64,7 @@ for i=1:m
             IndiceVegetacion.NDVI=Numerador./Denominador;
             INFO_x=INFO.nir;
        case 'SR'
-           IndiceVegetacion.SR=R_l(:,:,1)./(R_l(:,:,2)+1);
+           IndiceVegetacion.SR=R_l(:,:,1)./(R_l(:,:,2));
            INFO_x=INFO.nir;
        case 'DVI'
            IndiceVegetacion.DVI=R_l(:,:,1)-R_l(:,:,2);

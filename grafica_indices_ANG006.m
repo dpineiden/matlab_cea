@@ -58,8 +58,7 @@ end
 %Guardar, se hace separado para asegurar que se grafiquen las imagenes en
 %primer lugar
 %hora se procede a guardar cada set de imagenes como geotiff
-for i=1:n
-    
+for i=1:n    
  [I_16b,Map_16b]=gray2ind(I(:,:,i),65536);
   savefile_TIF=strcat(Carpeta_output,'/',Nombre_Proceso,'/',COD_SAT_IMG,'_',Nombre_IV{i});
   geotiffwrite(savefile_TIF,I_16b,INFO.nir,'GeoKeyDirectoryTag',UTM.geokey); 

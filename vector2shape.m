@@ -1,3 +1,11 @@
+%function S_shape=vector2shape(v_iv,v_lon,v_lat,Namefile,Corte)
+%v_iv: vector de valors
+%v_lon: vector longitud asociado a valores
+%v_lat: vector latitud asociado a valores
+%Namefile: nombre de archivo
+%Corte: valor de corte
+%Esta funcion permite transfornar valores asociados geográficamente a un
+%set de archivos tipo shape para lectura en GIS.
 
 function S_shape=vector2shape(v_iv,v_lon,v_lat,Namefile,Corte)
 

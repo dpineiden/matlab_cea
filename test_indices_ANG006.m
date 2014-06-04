@@ -111,13 +111,13 @@ Ib=[];
   
 end
 
-  savefile_ndvi=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_ndvi');
-  savefile_sr=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_sr');
-  savefile_ndwi=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_ndwi');  
-    savefile_savi_03=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_savi_03');
-    savefile_savi_05=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_savi_05');
-    savefile_msi=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_msi');
-  savefile_ii=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_ii');
+  savefile_ndvi=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_ndvi','.txt');
+  savefile_sr=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_sr','.txt');
+  savefile_ndwi=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_ndwi','.txt');  
+    savefile_savi_03=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_savi_03','.txt');
+    savefile_savi_05=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_savi_05','.txt');
+    savefile_msi=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_msi','.txt');
+  savefile_ii=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_ii','.txt');
 
 for i=1:I-1
 FID_ndvi=fopen(savefile_ndvi,'a+');
@@ -127,6 +127,8 @@ FID_savi_03=fopen(savefile_savi_03,'a+');
 FID_savi_05=fopen(savefile_savi_05,'a+');
 FID_msi=fopen(savefile_msi,'a+');
 FID_ii=fopen(savefile_ii,'a+');
+
+%se guardan los valores min max de cada indice para cada imagen
 
 fprintf(FID_ndvi,'%s\n',[Lista_NDVI{i,1}{1} Lista_NDVI{i,1}{2} num2str(Lista_NDVI{i,1}{3}) Lista_NDVI{i,1}{4} num2str(Lista_NDVI{i,1}{5})]);
 fprintf(FID_sr,'%s\n',[Lista_SR{i,1}{1} Lista_SR{i,1}{2} num2str(Lista_SR{i,1}{3}) Lista_SR{i,1}{4} num2str(Lista_SR{i,1}{5})]);

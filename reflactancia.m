@@ -154,6 +154,8 @@ for i=1:n
     end
 end
 
+
+
 %calculo indice de vegetacion NDVI: (B4-B3)/(B4+B3)
 
 end
