@@ -4,17 +4,12 @@ function [corte_multi, X ,R , INFO]=corte_imagen_multi(BaseDir,File,UTM_x,UTM_y)
 %UTM_x: lista de valores para posicion X {[X1(1) X1(2)],X2(1),X2(2),....]}
 %UTM_y: lista de valores para posicion Y
 %UTM son valores de posicion reales, no de pixeles
+[a largo_UTM]=size(UTM_x);
 %obtener largo de lista----[ 1 , n ] =size(UTM_x) tomamos n por la cantidad
 %de elementos apres de posicion
 [fil, cols]=size(UTM_x);
 [X, R] = geotiffread(File);
 cd(BaseDir);
-pwd;
-if ~isdir('Cortes_Imagenes')
-mkdir('Cortes_Imagenes');
-end
-cd('Cortes_Imagenes');
-ruta_actual=pwd;
 INFO = geotiffinfo(File);
 UTM.geokey=INFO.GeoTIFFTags.GeoKeyDirectoryTag;
 UTM.tipo=INFO.Projection;
@@ -25,7 +20,6 @@ UTM.tipo=INFO.Projection;
 largo_pixel= INFO.GeoTIFFTags.ModelPixelScaleTag(1);
 p=largo_pixel; %en metros
 py= INFO.GeoTIFFTags.ModelPixelScaleTag(2);
-
 %entregar los dos puntos limite del corte
 %X_a__dx_1___
 %   dy_1
@@ -68,10 +62,10 @@ py= INFO.GeoTIFFTags.ModelPixelScaleTag(2);
 
 %se comienza la iteracion para cada zona. recortando de la imagen inicial
 %las partes de interes
-
-for g=1:n
+largo_UTM;
+for g=1:largo_UTM
     UTM_x_round=round(UTM_x{g}/p)*p;
-    UTM_y_round=round(UTM_y{g}/py)*py;   
+    UTM_y_round=round(UTM_y{g}/py)*py;
     
     X_1=UTM_x_round;
     X_2=UTM_y_round;
@@ -88,8 +82,8 @@ for g=1:n
     upper=find(Yr==UTM_y_round(1),1);
     lower=find(Yr==UTM_y_round(2),1);
 
-    corte_multi.Rc.YLimWorld{g}=[Yr(min(upper,lower)) Yr(max(upper,lower))]
-    corte_multi.Rc.XLimWorld{g}=[Xr(min(left,right)) Xr(max(left,right))]
+    corte_multi.Rc{g}.YLimWorld=[Yr(min(upper,lower)) Yr(max(upper,lower))];
+    corte_multi.Rc{g}.XLimWorld=[Xr(min(left,right)) Xr(max(left,right))];
 
 % [left_long, upper_lat] = projfwd(INFO, X_1(2), X_1(1))
 % [right_long, lower_lat] = projfwd(INFO, X_2(2), X_2(1))
@@ -103,10 +97,12 @@ for g=1:n
     FILAS=[ min(upper,lower) max(upper,lower)];
     COLUMNAS=[min(left,right) max(left,right) ];
     corte_multi.imagen{g} = X(  min(upper,lower):max(upper,lower)-1, min(left,right):max(left,right)-1  );
-    corte_multi.Rc.RasterSize{g}=size(corte_multi.imagen{g});
+    corte_multi.Rc{g}.RasterSize=size(corte_multi.imagen{g});
     %filas en y
     %columnas en x
-    corte_multi.Rc{g} = maprasterref('RasterSize',    corte_multi.Rc.RasterSize{g},'YLimWorld', corte_multi.Rc.YLimWorld{g}, 'ColumnsStartFrom','north','XLimWorld', corte_multi.Rc.XLimWorld{g});
+%    corte_multi.Rc{g}.mapraster = maprasterref('RasterSize',corte_multi.Rc{g}.RasterSize,'YLimWorld', corte_multi.Rc{g}.YLimWorld, 'ColumnsStartFrom','north','XLimWorld', corte_multi.Rc{g}.XLimWorld);
+     corte_multi.Rc{g}.mapraster = maprasterref('RasterSize',corte_multi.Rc{g}.RasterSize,'YLimWorld', corte_multi.Rc{g}.YLimWorld, 'ColumnsStartFrom','north','XLimWorld', corte_multi.Rc{g}.XLimWorld);
+
 end
 
 
