@@ -1,14 +1,5 @@
 %tomar de cada valor de agrupacion.filtro los estadistico y ordenarlos
 %cronologicamente
-Data_Index=[];
-for g=1:length(ind_analisis)
-   nombre_indice=indices(g);
-   Data_Index{g}.total.absoluto={corte_multi.indice{g}.orden_total};
-   for t=1:tn
-      Data_Index{g}.total.temporada{t}={agrupacion.indice{g}.filtro{t}.orden_total};
-      Data_Index{g}.cronologico.temporada(t)={agrupacion.indice{g}.filtro{t}.orden_cronologico};
-   end   
-end
 fecha=[];
 y=[];
 for g=1:length(ind_analisis)
@@ -27,6 +18,7 @@ N=length(corte_multi.indice{g}.orden_total);
                     fecha.orden(m,1)=m;
                     fecha.year(m,1)=yearB;
                     fecha.day(m,1)=dayB;
+                    y{g}.temporada{m,1}=agrupacion.indice{g}.filtro{t}.temporada; 
                     for s=1:m_UTMx
 %                temporada: 'Primavera'
 %                   nombre: {84x1 cell}
@@ -58,7 +50,7 @@ N=length(corte_multi.indice{g}.orden_total);
 %       ind_media_armonica: {84x5 cell}
 %             ind_curtosis: {84x5 cell}                        
                %valores de matriz imagen
-                        y{g}.temporada{m}=agrupacion.indice{g}.filtro{t}.temporada;
+
                         y{g}.minimo(m,s)=agrupacion.indice{g}.filtro{t}.minimo{mx,s};
                         y{g}.maximo(m,s)=agrupacion.indice{g}.filtro{t}.maximo{mx,s};
                         y{g}.media(m,s)=agrupacion.indice{g}.filtro{t}.media{mx,s};

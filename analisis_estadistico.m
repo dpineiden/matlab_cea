@@ -8,7 +8,7 @@ clear
   directorio_tiff= strcat(directorio,proyecto,'/TIFF/');
     indices={'ii','msi','ndvi','ndwi','savi_03','savi_05','sr'};
     %%indices a analizar
-    ind_analisis=[3 5 7];%o [3 5 7] equivale a: ndvi ,savi_03 y sr
+    ind_analisis=[3 4 5];%o [3 5 7] equivale a: ndvi ,savi_03 y sr
     minmax_i=1;
     %entregar lisas UTM_X UTM_y (ej 3 recuadros)
     Secciones={1,2,3,5,7};
