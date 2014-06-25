@@ -1,4 +1,4 @@
-INDICES={'NDVI','SR','NDWI','SAVI','MSI','II'};
+INDICES={'NDVI','SR','NDWI','SAVI_03','MSI','II'};
 Carpeta_output='Output';
 %INDICES={'NDVI','NDWI'};
 %programa que lee línea a línea el LOG MTL

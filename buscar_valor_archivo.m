@@ -1,3 +1,4 @@
+%funcion mara encontrar en archivo MTL de landsat un valor especifico
 function [Valor,NombreVal,n_linea]=buscar_valor_archivo(NombreValor, FilePath)
 S=size(NombreValor);
 L=S(2);

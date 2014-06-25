@@ -69,13 +69,14 @@ for i=1:m
        case 'DVI'
            IndiceVegetacion.DVI=R_l(:,:,1)-R_l(:,:,2);
            INFO_x=INFO.nir;
-       case 'SAVI'
+       case 'SAVI_03'
            L=0.3;
             Numerador=R_l(:,:,1)-R_l(:,:,2);
             Denominador=R_l(:,:,1)+R_l(:,:,2)+L;
            IndiceVegetacion.SAVI_03=(Numerador./Denominador)*(1+L); 
            INFO_x=INFO.nir;
-            L=0.5
+       case 'SAVI_05'
+           L=0.5
             Numerador=R_l(:,:,1)-R_l(:,:,2);
             Denominador=R_l(:,:,1)+R_l(:,:,2)+L;
             IndiceVegetacion.SAVI_05=(Numerador./Denominador)*(1+L);  
