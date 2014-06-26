@@ -7,7 +7,7 @@ year_julian=juliandate(fecha.year,0,0)-juliandate(0,0,0);
 variable_x=year_julian+fecha.day;
 for g=1:length(ind_analisis)%length(ind_analisis)
     indice_datos=indices{ind_analisis(g)};
-   for  c=[8,9,10,11]%[21,22,23,24]%1 minimo a curtosis en valores 2^n-1 SR_03 da valores muy pequeños, se usa 8 a 16, si se usan otros indices usar 21 a 29
+   for  c=[21,22,23,24]%[8,9,10,11]% 1 minimo a curtosis en valores 2^n-1 SR_03 da valores muy pequeños, se usa 8 a 16, si se usan otros indices usar 21 a 29
 
             if c>=21   
             estadistico=nombres_campos{c}(5:end);%se recorta nombre la parte ind_

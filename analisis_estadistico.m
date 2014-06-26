@@ -6,7 +6,7 @@ clear
     directorio='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/Output/';
     proyecto='ANG006_IMG';
   directorio_tiff= strcat(directorio,proyecto,'/TIFF/');
-    indices={'ii','msi','ndvi','ndwi','savi_03','savi_05','sr'};
+    indices=upper({'ii','msi','ndvi','ndwi','savi_03','savi_05','sr'});
     %%indices a analizar
     ind_analisis=[3 4 5];%o [3 5 7] equivale a: ndvi ,savi_03 y sr
     minmax_i=1;

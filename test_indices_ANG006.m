@@ -1,4 +1,5 @@
-INDICES={'NDVI','SR','NDWI','SAVI_03','MSI','II'};
+%INDICES={'NDVI','SR','NDWI','SAVI_03','MSI','II'};%
+INDICES={'NDVI','NDWI','SAVI_03'};%
 Carpeta_output='Output';
 %INDICES={'NDVI','NDWI'};
 %programa que lee línea a línea el LOG MTL
@@ -11,6 +12,7 @@ UTM_x=[372560,387500];
 UTM_y=[6328630,6307300]-10000000;
 I=1;
 tic
+Lista=[]
 while ~feof(FID)    
         leer_linea=fgetl(FID); 
 File='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/img_ANG006_IMG/IMG';
@@ -21,130 +23,47 @@ des=desmembrar(leer_linea,'/');
 MTLDIR=['/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/img_ANG006_IMG/IMG/' char(des(dn-1,1))];
 savemat=1; 
 [IndiceVegetacion, INFO,R,UTM,R_l]=indices_vegetacion(BaseDir,MTLDIR,savemat,Nombre_Proceso,UTM_x,UTM_y,INDICES);
-
-
 IM=[];
 Ib=[];
 UTM.geokey.GTRasterTypeGeoKey=1;
-
+indice=[];
+BitDepth=16;
+for i=1:length(INDICES)
+nombre_indice=str2mat(INDICES(i));
+indice=getfield(IndiceVegetacion,nombre_indice);
 nombres=desmembrar(INFO.nir.Filename,'/');
 COD_SAT_IMG=char(nombres(length(nombres)-1));
-BitDepth=16;
-%guarda imagen NDVI
+%guarda imagen indice
 Im=1;
- IM=mat2gray(IndiceVegetacion.NDVI,[min(IndiceVegetacion.NDVI(:)) max(IndiceVegetacion.NDVI(:))]); 
-Lista_NDVI{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.NDVI(:)),',',max(IndiceVegetacion.NDVI(:))};
+IM=mat2gray(indice,[min(indice(:)) max(indice(:))]);  
  %IM=mat2gray(IndiceVegetacion.NDVI,[-1 1]); 
- [Ib,Mapb]=gray2ind(IM,2^BitDepth);
-  savefile_TIF=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'/TIFF/',COD_SAT_IMG,'_',INDICES{1});
-  geotiffwrite(savefile_TIF,Ib,R.nir,'GeoKeyDirectoryTag',UTM.geokey); 
-
-IM=[];
-Ib=[];
- %guarda imagen SR
- Im=2 ;
- IM=mat2gray(IndiceVegetacion.SR,[min(IndiceVegetacion.SR(:)) max(IndiceVegetacion.SR(:))]); 
- Lista_SR{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.SR(:)),',',max(IndiceVegetacion.SR(:))};
- %IM=mat2gray(IndiceVegetacion.SR,[0 2^BitDepth]); 
- [Ib,Mapb]=gray2ind(IM,2^BitDepth);
-  savefile_TIF=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'/TIFF/',COD_SAT_IMG,'_',INDICES{2});
-  geotiffwrite(savefile_TIF,Ib,R.nir,'GeoKeyDirectoryTag',UTM.geokey); 
-
-
-  IM=[];
-Ib=[];
-  %guarda imagen NDWI
-  Im=3;
-  IM=mat2gray(IndiceVegetacion.NDWI,[min(IndiceVegetacion.NDWI(:)) max(IndiceVegetacion.NDWI(:))]); 
-  Lista_NDWI{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.NDWI(:)),',',max(IndiceVegetacion.NDWI(:))};
- %IM=mat2gray(IndiceVegetacion.NDWI,[-1 1]); 
- [Ib,Mapb]=gray2ind(IM,2^BitDepth);
-  savefile_TIF=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'/TIFF/',COD_SAT_IMG,'_',INDICES{3});
-  geotiffwrite(savefile_TIF,Ib,R.nir,'GeoKeyDirectoryTag',UTM.geokey); 
-
-  IM=[];
-Ib=[];
-  %guarda imagen SAVI 0.3
-  Im=4;
-  IM=mat2gray(IndiceVegetacion.SAVI_03,[min(IndiceVegetacion.SAVI_03) max(IndiceVegetacion.SAVI_03)]); 
-  Lista_SAVI_03{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.SAVI_03),',',max(IndiceVegetacion.SAVI_03)};
- %IM=mat2gray(IndiceVegetacion.NDWI,[-1 1]); 
- [Ib,Mapb]=gray2ind(IM,2^BitDepth);
-  savefile_TIF=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'/TIFF/',COD_SAT_IMG,'_',INDICES{4},'_03');
-  geotiffwrite(savefile_TIF,Ib,R.nir,'GeoKeyDirectoryTag',UTM.geokey); 
-  
-  IM=[];
-Ib=[];
-  %guarda imagen SAVI 0.5
-  Im=5;
-  IM=mat2gray(IndiceVegetacion.SAVI_05,[min(IndiceVegetacion.SAVI_05) max(IndiceVegetacion.SAVI_05)]); 
-  Lista_SAVI_05{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.SAVI_05),',',max(IndiceVegetacion.SAVI_05)};
- %IM=mat2gray(IndiceVegetacion.NDWI,[-1 1]); 
- [Ib,Mapb]=gray2ind(IM,2^BitDepth);
-  savefile_TIF=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'/TIFF/',COD_SAT_IMG,'_',INDICES{4},'_05');
-  geotiffwrite(savefile_TIF,Ib,R.nir,'GeoKeyDirectoryTag',UTM.geokey); 
-  
-    IM=[];
-Ib=[];
-  %guarda imagen MSI
-  Im=6;
-  IM=mat2gray(IndiceVegetacion.MSI,[min(IndiceVegetacion.MSI(:)) max(IndiceVegetacion.MSI(:))]); 
-  Lista_MSI{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.MSI(:)),',',max(IndiceVegetacion.MSI(:))};
- %IM=mat2gray(IndiceVegetacion.NDWI,[-1 1]); 
- [Ib,Mapb]=gray2ind(IM,2^BitDepth);
-  savefile_TIF=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'/TIFF/',COD_SAT_IMG,'_',INDICES{5});
-  geotiffwrite(savefile_TIF,Ib,R.nir,'GeoKeyDirectoryTag',UTM.geokey); 
-
-    IM=[];
-Ib=[];
-  %guarda imagen II
-  Im=7;
-  IM=mat2gray(IndiceVegetacion.II,[min(IndiceVegetacion.II(:)) max(IndiceVegetacion.II(:))]); 
-  Lista_II{I,:}={COD_SAT_IMG,',',min(IndiceVegetacion.II(:)),',',max(IndiceVegetacion.II(:))};
- %IM=mat2gray(IndiceVegetacion.NDWI,[-1 1]); 
- [Ib,Mapb]=gray2ind(IM,2^BitDepth);
-  savefile_TIF=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'/TIFF/',COD_SAT_IMG,'_',INDICES{6});
-  geotiffwrite(savefile_TIF,Ib,R.nir,'GeoKeyDirectoryTag',UTM.geokey); 
-  
-  I=I+1;
-
-  
+[Ib,Mapb]=gray2ind(IM,2^BitDepth);
+savefile_TIF=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'/TIFF/',COD_SAT_IMG,'_',nombre_indice);
+geotiffwrite(savefile_TIF,Ib,R.nir,'GeoKeyDirectoryTag',UTM.geokey); 
+Insert=[COD_SAT_IMG,',',num2str(min(indice(:))),',',num2str(max(indice(:)))];%genero un string de nombre min max
+Lista=setfield(Lista,{I,1},nombre_indice,Insert);%j aumenta una posicion del valor
+indice=[]
 end
-
-  savefile_ndvi=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_ndvi','.txt');
-  savefile_sr=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_sr','.txt');
-  savefile_ndwi=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_ndwi','.txt');  
-    savefile_savi_03=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_savi_03','.txt');
-    savefile_savi_05=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_savi_05','.txt');
-    savefile_msi=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_msi','.txt');
-  savefile_ii=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_ii','.txt');
-
+I=I+1;%al final entrega cantidad de imagenes rescatadas
+end
+%usar S=setfield(S,{2,1},'b',{2},1) para setear un nuevo campo en arreglo
+savefile=[];
+% I=1
+for i=1:length(INDICES)
+    nombre=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_',INDICES{i},'.txt')
+    savefile=setfield(savefile,{1,1},INDICES{i},{1},{nombre});
+end
+%guardar files min max por indice
+FID=[]
 for i=1:I-1
-FID_ndvi=fopen(savefile_ndvi,'a+');
-FID_sr=fopen(savefile_sr,'a+');
-FID_ndwi=fopen(savefile_ndwi,'a+');
-FID_savi_03=fopen(savefile_savi_03,'a+');
-FID_savi_05=fopen(savefile_savi_05,'a+');
-FID_msi=fopen(savefile_msi,'a+');
-FID_ii=fopen(savefile_ii,'a+');
-
-%se guardan los valores min max de cada indice para cada imagen
-
-fprintf(FID_ndvi,'%s\n',[Lista_NDVI{i,1}{1} Lista_NDVI{i,1}{2} num2str(Lista_NDVI{i,1}{3}) Lista_NDVI{i,1}{4} num2str(Lista_NDVI{i,1}{5})]);
-fprintf(FID_sr,'%s\n',[Lista_SR{i,1}{1} Lista_SR{i,1}{2} num2str(Lista_SR{i,1}{3}) Lista_SR{i,1}{4} num2str(Lista_SR{i,1}{5})]);
-fprintf(FID_ndwi,'%s\n',[Lista_NDWI{i,1}{1} Lista_NDWI{i,1}{2} num2str(Lista_NDWI{i,1}{3}) Lista_NDWI{i,1}{4} num2str(Lista_NDWI{i,1}{5})]);
-fprintf(FID_savi_03,'%s\n',[Lista_SAVI_03{i,1}{1} Lista_SAVI_03{i,1}{2} num2str(Lista_SAVI_03{i,1}{3}) Lista_SAVI_03{i,1}{4} num2str(Lista_SAVI_03{i,1}{5})]);
-fprintf(FID_savi_05,'%s\n',[Lista_SAVI_05{i,1}{1} Lista_SAVI_05{i,1}{2} num2str(Lista_SAVI_05{i,1}{3}) Lista_SAVI_05{i,1}{4} num2str(Lista_SAVI_05{i,1}{5})]);
-fprintf(FID_msi,'%s\n',[Lista_MSI{i,1}{1} Lista_MSI{i,1}{2} num2str(Lista_MSI{i,1}{3}) Lista_MSI{i,1}{4} num2str(Lista_MSI{i,1}{5})]);
-fprintf(FID_ii,'%s\n',[Lista_II{i,1}{1} Lista_II{i,1}{2} num2str(Lista_II{i,1}{3}) Lista_II{i,1}{4} num2str(Lista_II{i,1}{5})]);
-
-fclose(FID_ndvi);  
-fclose(FID_sr);
-fclose(FID_ndwi);
-fclose(FID_savi_03);
-fclose(FID_savi_05);  
-fclose(FID_msi);
-fclose(FID_ii);
+    for j=1:length(INDICES)            
+        nombre_indice=str2mat(INDICES(j));
+       FID=setfield(FID,{i,1},INDICES{j},fopen(cell2mat(getfield(savefile,INDICES{j})),'a+'));
+       %se guardan los valores min max de cada indice para cada imagen
+       GF_lista=getfield(Lista(i),nombre_indice)
+       fprintf(getfield(FID,INDICES{j}),'%s\n',GF_lista); 
+       fclose(getfield(FID,nombre_indice));        
+    end
 end
 
 

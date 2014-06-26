@@ -148,7 +148,7 @@ for i=1:n
             R_l(i,j)=(pi*L_l(i,j)*distancia_ts^2)/(Esun_l(Banda)*sin(SUN_elevation_rad));
             if R_l(i,j)<0
                 R_l(i,j)=0;
-            end
+            end                    
 
         end        
     end
