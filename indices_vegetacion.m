@@ -30,16 +30,9 @@ for i=1:m
         Banda=1;
         [R_l(:,:,3),L_l(:,:,3),DN7(:,:,3),UTM,COD_SAT_IMG,INFO.blue,R.blue]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);
         %reflactancia SWIR:R 4
-        case 'NDWI'
+        case {'NDWI','MSI','II'}
         Banda=5;
         [R_l(:,:,4),L_l(:,:,4),DN7(:,:,4),UTM,COD_SAT_IMG,INFO.swir,R.swir]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);
-        case 'MSI'
-        Banda=5;
-        [R_l(:,:,4),L_l(:,:,4),DN7(:,:,4),UTM,COD_SAT_IMG,INFO.swir,R.swir]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);
-        case 'II'
-         Banda=5;
-        [R_l(:,:,4),L_l(:,:,4),DN7(:,:,4),UTM,COD_SAT_IMG,INFO.swir,R.swir]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);
-
     end
 end
 R_l=R_l+1;%% pasar de 0 a 255 a 1 a 256 (para evitar divisiones por 0 proximamente)
