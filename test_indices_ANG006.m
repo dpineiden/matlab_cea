@@ -3,7 +3,7 @@ INDICES={'NDVI','NDWI','SAVI_03'};%
 Carpeta_output='Output';
 %INDICES={'NDVI','NDWI'};
 %programa que lee línea a línea el LOG MTL
-BaseDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat'
+BaseDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat';
 LogTXT='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/Logs/archivos_MTL_ANG006_IMG.txt';
 FID=fopen(LogTXT,'r');
 UTM_x=[372560,387500];
@@ -12,7 +12,7 @@ UTM_x=[372560,387500];
 UTM_y=[6328630,6307300]-10000000;
 I=1;
 tic
-Lista=[]
+Lista=[];
 while ~feof(FID)    
         leer_linea=fgetl(FID); 
 File='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/img_ANG006_IMG/IMG';
@@ -42,7 +42,7 @@ savefile_TIF=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'/TIFF/',COD_S
 geotiffwrite(savefile_TIF,Ib,R.nir,'GeoKeyDirectoryTag',UTM.geokey); 
 Insert=[COD_SAT_IMG,',',num2str(min(indice(:))),',',num2str(max(indice(:)))];%genero un string de nombre min max
 Lista=setfield(Lista,{I,1},nombre_indice,Insert);%j aumenta una posicion del valor
-indice=[]
+indice=[];
 end
 I=I+1;%al final entrega cantidad de imagenes rescatadas
 end
@@ -50,7 +50,7 @@ end
 savefile=[];
 % I=1
 for i=1:length(INDICES)
-    nombre=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_',INDICES{i},'.txt')
+    nombre=strcat(BaseDir,'/',Carpeta_output,'/',Nombre_Proceso,'_',INDICES{i},'.txt');
     savefile=setfield(savefile,{1,1},INDICES{i},{1},{nombre});
 end
 %guardar files min max por indice
@@ -60,7 +60,7 @@ for i=1:I-1
         nombre_indice=str2mat(INDICES(j));
        FID=setfield(FID,{i,1},INDICES{j},fopen(cell2mat(getfield(savefile,INDICES{j})),'a+'));
        %se guardan los valores min max de cada indice para cada imagen
-       GF_lista=getfield(Lista(i),nombre_indice)
+       GF_lista=getfield(Lista(i),nombre_indice);
        fprintf(getfield(FID,INDICES{j}),'%s\n',GF_lista); 
        fclose(getfield(FID,nombre_indice));        
     end

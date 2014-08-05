@@ -35,7 +35,7 @@ for i=1:m
         [R_l(:,:,4),L_l(:,:,4),DN7(:,:,4),UTM,COD_SAT_IMG,INFO.swir,R.swir]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);
     end
 end
-R_l=R_l+1;%% pasar de 0 a 255 a 1 a 256 (para evitar divisiones por 0 proximamente)
+
 IndiceVegetacion.NDVI=0;
 IndiceVegetacion.SR=0;
 IndiceVegetacion.DVI=0;

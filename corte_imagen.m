@@ -1,15 +1,15 @@
 
 function [IMc, Rc, X ,R , INFO]=corte_imagen(BaseDir,File,UTM_x,UTM_y)
 %cortar seccion definida
-
-[X, R] = geotiffread(File);
 cd(BaseDir);
+[X, R] = geotiffread(File);
 pwd;
 if ~isdir('Cortes_Imagenes')
 mkdir('Cortes_Imagenes');
 end
 cd('Cortes_Imagenes');
 ruta_actual=pwd;
+cd(BaseDir);
 INFO = geotiffinfo(File);
 UTM.geokey=INFO.GeoTIFFTags.GeoKeyDirectoryTag;
 UTM.tipo=INFO.Projection;
@@ -39,7 +39,7 @@ py= INFO.GeoTIFFTags.ModelPixelScaleTag(2);
 
 
  Xr=[R.XLimWorld(1):p:R.XLimWorld(2)];
- Yr=[R.YLimWorld(1):p:R.YLimWorld(2)];
+ Yr=[R.YLimWorld(2):-p:R.YLimWorld(1)];
 %valores en coordenads de imagen tiff
 
 UTM_x=round(UTM_x/p)*p;
@@ -59,9 +59,10 @@ left=find(Xr==UTM_x(1),1);
 right=find(Xr==UTM_x(2),1);
 upper=find(Yr==UTM_y(1),1);
 lower=find(Yr==UTM_y(2),1);
-
-Rc.YLimWorld=[Yr(min(upper,lower)) Yr(max(upper,lower))]
-Rc.XLimWorld=[Xr(min(left,right)) Xr(max(left,right))]
+YLIM=[Yr(min(upper,lower)) Yr(max(upper,lower))];
+XLIM=[Xr(min(left,right)) Xr(max(left,right))];
+Rc.YLimWorld=[min(YLIM) max(YLIM)];
+Rc.XLimWorld=[min(XLIM) max(XLIM)];
 
 % 
 % [left_long, upper_lat] = projfwd(INFO, X_1(2), X_1(1))

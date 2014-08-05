@@ -56,7 +56,7 @@ py= INFO.GeoTIFFTags.ModelPixelScaleTag(2);
 
 
  Xr=[R.XLimWorld(1):p:R.XLimWorld(2)];
- Yr=[R.YLimWorld(1):p:R.YLimWorld(2)];
+ Yr=[R.YLimWorld(2):-p:R.YLimWorld(1)];
 %valores en coordenads de imagen tiff
 
 
@@ -81,9 +81,10 @@ for g=1:largo_UTM
     right=find(Xr==UTM_x_round(2),1);
     upper=find(Yr==UTM_y_round(1),1);
     lower=find(Yr==UTM_y_round(2),1);
-
-    corte_multi.Rc{g}.YLimWorld=[Yr(min(upper,lower)) Yr(max(upper,lower))];
-    corte_multi.Rc{g}.XLimWorld=[Xr(min(left,right)) Xr(max(left,right))];
+YLIM=[Yr(min(upper,lower)) Yr(max(upper,lower))];
+XLIM=[Xr(min(left,right)) Xr(max(left,right))];
+    corte_multi.Rc{g}.YLimWorld=[min(YLIM) max(YLIM)];
+    corte_multi.Rc{g}.XLimWorld=[min(XLIM) max(XLIM)];
 
 % [left_long, upper_lat] = projfwd(INFO, X_1(2), X_1(1))
 % [right_long, lower_lat] = projfwd(INFO, X_2(2), X_2(1))
@@ -96,7 +97,11 @@ for g=1:largo_UTM
 
     FILAS=[ min(upper,lower) max(upper,lower)];
     COLUMNAS=[min(left,right) max(left,right) ];
-    corte_multi.imagen{g} = X(  min(upper,lower):max(upper,lower)-1, min(left,right):max(left,right)-1  );
+    min_x=min(upper,lower);
+    max_x=max(upper,lower);
+    min_y=min(left,right);
+    max_y=max(left,right);
+    corte_multi.imagen{g} = X(min(upper,lower):max(upper,lower),min(left,right):max(left,right));
     corte_multi.Rc{g}.RasterSize=size(corte_multi.imagen{g});
     %filas en y
     %columnas en x
