@@ -8,7 +8,7 @@ variable_x=year_julian+fecha.day;
 
 for g=1:length(ind_analisis)%length(ind_analisis)
     indice_datos=indices{ind_analisis(g)};
-   for  c=[21,23]%[8,9,10,11]% 1 minimo a curtosis en valores 2^n-1 SR_03 da valores muy pequeños, se usa 8 a 16, si se usan otros indices usar 21 a 29
+   for  c=[21]%[8,9,10,11]% 1 minimo a curtosis en valores 2^n-1 SR_03 da valores muy pequeños, se usa 8 a 16, si se usan otros indices usar 21 a 29
 
             if c>=24   
             estadistico=nombres_campos{c}(5:end);%se recorta nombre la parte ind_
@@ -22,6 +22,7 @@ if iscell(getfield(y{g},nombres_campos{c}))
     V=[];
     Z=[];
     Q=[];
+%      nombre=  nombres_campos{c}
 T=getfield(y{g},nombres_campos{c});    
 [ja, jo]=size(T)
 Q=T{g,s}.umbral;
@@ -32,13 +33,12 @@ V=Q;%los valores por cada umbral en esa muestra
             lyv=length(sector{s}.variable_y);
         end
 for qu=1:length(umbral)
-sector{s}.Z(:,qu) =tsmovavg(sector{s}.variable_y(:,qu),'t',20,1); %smooth(variable_x,variable_y(:,s),60,'sgolay');
+sector{s}.Z(:,qu) =tsmovavg(sector{s}.variable_y(:,qu),'t',5,1); %smooth(variable_x,variable_y(:,s),60,'sgolay');
 end        
     end
 %variable_y
-
-
 else
+%  nombre=  nombres_campos{c}
 V=getfield(y{g},nombres_campos{c});
 variable_y=V(:,s);
 end
@@ -61,30 +61,32 @@ end
             MS=m_UTMx;
             for s=1:MS%MS%m_UTMx%sectores a analizar
               %nueva figura por cada sector
-%                 variable_y=getfield(y{g},nombres_campos{c});
-%                 p=polyfit(variable_x,variable_y(:,s),1);
-%                 R=corrcoef(variable_x,variable_y(:,s)); 
-%                 linea=p(1)*variable_x+p(2);
-%                  Z =tsmovavg(variable_y(:,s),'t',10,1); %smooth(variable_x,variable_y(:,s),60,'sgolay');
+%                  variable_y=getfield(y{g},nombres_campos{c});
+%                  p=polyfit(variable_x,variable_y(:,s),1);
+%                  R=corrcoef(variable_x,variable_y(:,s)); 
+%                  linea=p(1)*variable_x+p(2);
+%                   Z =tsmovavg(variable_y(:,s),'t',5,1); %smooth(variable_x,variable_y(:,s),60,'sgolay');
                 figura=figure('units','normalized','outerposition',[0 0 1 1]);
-                plot(variable_x,sector{s}.variable_y,'<', variable_x,sector{s}.Z,'r*-');
-%      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           
-%                 %%sector para insertar cruce real
-% sector_particular=find(cell2mat(Ayl.nro)==Secciones{s})
-% if ~isempty(sector_particular) && c==21
-% for i=sector_particular
-%     i
-% hold
-%     %cada sector se grafica y se trazan lineas vertical y horizontal por valor
-% DATEs1={Ayl.Sector{i}{:,1}}'
-% valor_Aha(:,i)=cell2mat({Ayl.Sector{i}{:,2}}');%cantidad de hectareas por sectore (en columnas) por fecha (en filas)
-% fecha_juliana_data{i}=juliandate(DATEs1,'dd/mm/yyyy')-juliandate(0,0,0);
-% 
-% cantidad_datos_sector=length(Ayl.Sector{i});
-% maximo_valor=max([Ayl.Sector{i}{:,2}]);
-% primera_fecha=fecha_juliana_data{i}(1);
-% ultima_fecha=fecha_juliana_data{i}(length(fecha_juliana_data{i}));
-%  plot(fecha_juliana_data{i},valor_Aha(:,i),'bo-');
+                variable_y(:,1);
+                  plot(variable_x,sector{s}.variable_y,'<', variable_x,sector{s}.Z,'k-');
+
+     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           
+                %%sector para insertar cruce real
+sector_particular=find(cell2mat(Ayl.nro)==Secciones{s})
+if ~isempty(sector_particular) && c==21
+for i=sector_particular
+    i;
+hold
+    %cada sector se grafica y se trazan lineas vertical y horizontal por valor
+DATEs1={Ayl.Sector{i}{:,1}}';
+valor_Aha(:,i)=cell2mat({Ayl.Sector{i}{:,2}}');%cantidad de hectareas por sectore (en columnas) por fecha (en filas)
+fecha_juliana_data{i}=juliandate(DATEs1,'dd/mm/yyyy')-juliandate(0,0,0);
+
+cantidad_datos_sector=length(Ayl.Sector{i});
+maximo_valor=max([Ayl.Sector{i}{:,2}]);
+primera_fecha=fecha_juliana_data{i}(1);
+ultima_fecha=fecha_juliana_data{i}(length(fecha_juliana_data{i}));
+ plot(fecha_juliana_data{i},valor_Aha(:,i),'bs-','MarkerEdgeColor','b');
 % for j=1:cantidad_datos_sector
 %  hold
 %     %se traza cada tupla horizontal y vertical
@@ -102,25 +104,30 @@ end
 % %                plot(fecha_juliana{i},valor_Aha(:,i),'r*-');
 % 
 % end
-% end
-% end%if
+end
+end%if
        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 
                 set(gcf, 'Position', get(0,'Screensize')); 
                 set(gcf,'PaperPositionMode','auto');
                 datetick('x','mm/yyyy','keepticks');
+                axis([primera_fecha ultima_fecha  0 maximo_valor+10])
                 xlabel('Fecha');                                     
-                ylabel(string_estadistico);
+                ylabel([upper(string_estadistico(1)) string_estadistico(2:7)]);
                 titulo=[ upper(indice_datos) '-' upper(string_estadistico(1)) string_estadistico(2:end) '- Sector ' num2str(Secciones{s}) '- Periodo [' num2str(fecha.year(1)) ';' num2str(fecha.year(end))  ']' ];
-                title(titulo);
+                %title(titulo);
+                set(findall(figura,'type','text'),'fontSize',11,'fontWeight','bold')
+                set(0,'defaultAxesFontName', 'arial')
+                set(0,'defaultTextFontName', 'arial')
+
                 %h_legend=legend({['Sector '  num2str(Secciones{s})], ['Linea de tendencia y(x) =' num2str(p(1)) '*x+' num2str(p(2))],'Media Temporal'});
                        %        set(h_legend,'FontSize',10);
                         % saveas(figura,['figura_indice_' indice_datos '_sector_' num2str(Secciones{s}) '-'  estadistico], 'fig');
                         % saveas(figura,['figura_indice_' indice_datos '_sector_' num2str(Secciones{s}) '-'  estadistico], 'mmat');
                         % saveas(figura,['figura_indice_' indice_datos '_sector_' num2str(Secciones{s}) '-'  estadistico], 'm');
-                         saveas(figura,['figura_indice_' indice_datos '_sector_' num2str(Secciones{s}) '-'  estadistico], 'png');
+                         saveas(figura,['figura_indice_' indice_datos '_sector_' num2str(Secciones{s}) '-'  estadistico 'cruce'], 'png');
             end
-               close all
+       %         close all
    end
 end
 %Indice--->Sector---->Estadisticos

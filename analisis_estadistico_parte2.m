@@ -9,15 +9,17 @@
 %se tiene set de secciones, cortes de imagenes
 clear agrupacion agrupacionF
 temporadas={'Verano';'Otoño';'Invierno';'Primavera'};
+%temporadas={'Verano';'Otoño';'Primavera'};%util
+Descarte={'LS7',[2005,2008]};
 [tn tm]=size(temporadas);
 [ind_n, ind_m]=size(corte_multi.indice);
-for i=1:ind_m
+for g=1:ind_m
     Estructura=corte_multi.indice{g};
     %tomamos cada corte_multi.nombre
     %se tiene una estructura con las imagenes y sus estadisticos
     for t=1:tn
     %se separan por seccion y temporada, asignando estos dos nuevos valores
-        agrupacion.indice{i}.filtro{t}=filtro_temporada(Estructura,temporadas{t});
+        agrupacion.indice{g}.filtro{t}=filtro_temporada(Estructura,temporadas{t});
     end 
 
 %volver a leer otra imagen
@@ -26,12 +28,12 @@ end
 %se ordenan cronologicamente los datos POR TEMPORADA
 %ind_m valor de cantidad de índices
 %tn: cantidad de temporadas
-for i=1:ind_m
+for g=1:ind_m
     for t=1:tn
-years_1=cell2mat(agrupacion.indice{i}.filtro{t}.year);
-days_1=cell2mat(agrupacion.indice{i}.filtro{t}.dia);    
+years_1=cell2mat(agrupacion.indice{g}.filtro{t}.year);
+days_1=cell2mat(agrupacion.indice{g}.filtro{t}.dia);    
 [B, Index]=sortrows([years_1, days_1]);
-agrupacion.indice{i}.filtro{t}.orden_cronologico=Index;
+agrupacion.indice{g}.filtro{t}.orden_cronologico=Index;
 %Se añade Index a estructura agrupacion.filtro{t}
      end
 end
@@ -78,7 +80,20 @@ for g=1:ind_m
 %               indices: 142
 %     orden_cronologico: [142x1 double]
 %            indice_min: {142x1 cell}
-%            indice_max: {142x1 cell}  
+%            indice_max: {142x1 cell
+
+%Real_Indice=inversa_indice(Matriz, minimo, maximo,bits)}
+%bloque de testeo para estudiar resultados.
+%                 if g==1 & t==1 & m==1 & s==1
+%                    minimo
+%                    maximo
+%                    bits
+%                 end;
+                agrupacion.indice{g}.filtro{t}.area_ha_indice{m,s}='';
+                agrupacion.indice{g}.filtro{t}.area_ha_total{m,s}='';
+                agrupacion.indice{g}.filtro{t}.percent{m,s}='';
+                agrupacion.indice{g}.filtro{t}.matriz_on{m,s}='';
+                agrupacion.indice{g}.filtro{t}.ind_imagen{m,s}=inversa_indice(double(agrupacion.indice{g}.filtro{t}.imagen{m}{s}), minimo, maximo,bits);
                 agrupacion.indice{g}.filtro{t}.ind_minimo{m,s}=inversa_indice(agrupacion.indice{g}.filtro{t}.minimo{m,s}, minimo, maximo,bits);
                 agrupacion.indice{g}.filtro{t}.ind_maximo{m,s}=inversa_indice(agrupacion.indice{g}.filtro{t}.maximo{m,s}, minimo, maximo,bits);
                 agrupacion.indice{g}.filtro{t}.ind_media{m,s}=inversa_indice(agrupacion.indice{g}.filtro{t}.media{m,s}, minimo, maximo,bits);

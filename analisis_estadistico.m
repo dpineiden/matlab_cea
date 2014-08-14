@@ -1,4 +1,5 @@
-clear
+clear all
+close all
 %%definir el directorio y  nombres de archivos que contienen el min-max de
 %%cada imagen en particular
 %%se carga como un objeto: Indice.{lista_nombre,lista_min,lista_max}
@@ -8,21 +9,25 @@ clear
   directorio_tiff= strcat(directorio,proyecto,'/TIFF/');
     indices=upper({'ii','msi','ndvi','ndwi','savi_03','savi_05','sr'});
     %%indices a analizar
-    ind_analisis=[3 4 5];%o [3 5 7] equivale a: ndvi ,savi_03 y sr
+    ind_analisis=[3];%o [3 5 7] equivale a: ndvi ,savi_03 y sr, se seleccionan los indicies a estudiar
     minmax_i=1;
     %entregar lisas UTM_X UTM_y (ej 3 recuadros)
     Secciones={1,2,3,5,7};
-    UTM_x={[381050,381532],[380206,380770],[378315,378992],[381802,382351],[378602,380279]};
-    UTM_y={[6323758,6323272]-10000000,[6320748,6320122]-10000000,[6317251,6316736]-10000000,[6316828,6316749]-10000000,[6312260,6310918]-10000000};
+    UTM_x{1}=[380877,381651];
+    UTM_x{2}=[380264,380837];
+    UTM_x{3}=[378337,379800];
+    UTM_x{4}=[381768,382629];
+    UTM_x{5}=[378384,380301];
+    UTM_y{1}=[6323715,6323162]-10000000;
+    UTM_y{2}=[6320976,6319980]-10000000;
+    UTM_y{3}=[6318268,6315945]-10000000;    
+    UTM_y{4}=[6317016,6315815]-10000000;
+    UTM_y{5}=[6312291,6311149]-10000000;
     %tamaño
     [n_UTMx, m_UTMx]=size(UTM_x);
     %generar un valor correpondiente a porcentajes de analisis:
-    porcentajes=[0.5,0.6,0.7,0.8];
-
     %los valores a transformar son cada a% para hacer histograma de barras
-    p_h=[0:.05:1];
-
-%etapa extracción de datos    
+    umbral=[.3:.02:.6];
     
 for g=1:length(ind_analisis)
     Atiff=[];
@@ -195,6 +200,13 @@ for g=1:length(ind_analisis)
 
        for k=1:m_UTMx
             micro_imagen=corte_multi.indice{g}.imagen{t,:}{k};
+%             if t==1 & g==1 & k==1
+%             A=micro_imagen
+%             class({A})
+%             corte_multi.indice{g}.imagen{t,k}={A}
+%             end
+            %se guarda la imagen en estructura
+            %corte_multi.indice{g}.imagen{t,k}=double(micro_imagen);
             %size(micro_imagen);
             minimo=min(double(micro_imagen(:)));
             maximo=max(double(micro_imagen(:)));
@@ -205,7 +217,9 @@ for g=1:length(ind_analisis)
             media_armonica=harmmean(double(micro_imagen(:)));
             curtosis=kurtosis(double(micro_imagen(:)));
             desviacion_estandar=std(double(micro_imagen(:)));
+            
 
+            %end
             %minimo
             corte_multi.indice{g}.minimo{t,k}=minimo;
             %maximo;
@@ -225,8 +239,8 @@ for g=1:length(ind_analisis)
             %curtosis
             corte_multi.indice{g}.curtosis{t,k}=curtosis;      
             micro_imagen=[];
+            end
         end
-    end
 %en directorio_tiff
     [Btot,Index_tot]=sortrows([cell2mat(corte_multi.indice{g}.year),cell2mat(corte_multi.indice{g}.dia)]);
     corte_multi.indice{g}.orden_total=Index_tot;

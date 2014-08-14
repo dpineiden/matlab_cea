@@ -1,0 +1,12 @@
+analisis_estadistico
+analisis_estadistico_parte2
+analisis_estadistico_parte2ymedio
+analisis_estadistico_parte3
+analisis_estadistico_parte4
+sectores_patron
+cruce_real_calculado
+analisis_estadistico_parte5
+analisis_estadistico6
+%modificar valor cortes
+%graficar_analisis_recurrencia
+%valor_areamedia

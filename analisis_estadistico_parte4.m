@@ -4,7 +4,7 @@ fecha=[];
 y=[];
 for g=1:length(ind_analisis)
 N=length(corte_multi.indice{g}.orden_total);
-    for m=1:N
+    for m=1:N%N es el total de muestras en tiempo
         for t=1:tn
             Nx=agrupacion.indice{g}.filtro{t}.indices;
             for mx=1:Nx
@@ -61,6 +61,16 @@ N=length(corte_multi.indice{g}.orden_total);
                         y{g}.media_armonica(m,s)=agrupacion.indice{g}.filtro{t}.media_armonica{mx,s};
                         y{g}.curtosis(m,s)=agrupacion.indice{g}.filtro{t}.curtosis{mx,s};
               %valores de indice original
+              
+                        y{g}.imagen{m,s}=y_temp{g,t}.imagen{mx,s};
+                        y{g}.area_ha_total{m,s}=y_temp{g,t}.area_ha_total{mx,s};                        
+                        for umbral_i=1:length(umbral);
+                        y{g}.area_ha_indice{m,s}.umbral(umbral_i)=y_temp{g,t}.area_ha_indice{mx,s}.umbral(umbral_i);
+                        y{g}.percent{m,s}.umbral(umbral_i)=y_temp{g,t}.percent{mx,s}.umbral(umbral_i); 
+                        y{g}.matriz_on{m,s}.umbral(:,:,umbral_i)=y_temp{g,t}.matriz_on{mx,s}.umbral(:,:,umbral_i);
+                        end
+                        
+                        
                         y{g}.ind_minimo(m,s)=agrupacion.indice{g}.filtro{t}.ind_minimo{mx,s};
                         y{g}.ind_maximo(m,s)=agrupacion.indice{g}.filtro{t}.ind_maximo{mx,s};
                         y{g}.ind_media(m,s)=agrupacion.indice{g}.filtro{t}.ind_media{mx,s};

@@ -1,7 +1,7 @@
 %leer directorio en que se encuentran las imágenes:
 BaseDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat';
 Directorio='ANG006_IMG';
-ProjectDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/ANG006_IMG/IMG';
+ProjectDir='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/img_ANG006_IMG/IMG';
 cd(ProjectDir);
 [A lista]=unix(['find -name *.txt']);
 RutaLog=[BaseDir,'/Logs'];
@@ -38,13 +38,13 @@ FID=fopen([RutaLog,'/',archivos_MTL],'r');
 savemat=0;
 Proceso='proyecto'
   str='/';  
-while ~feof(fid)
-MTL_lin=fgetl(fid);
-patron=MTL_lin;
-k_str=strfind(patron,str);
-n= length(k_str);
-MTLDIR=MTL_lin(1:k_str(length(k_str)));
-NDVI=ndvi(BaseDir,MTLDIR,savemat,Proceso);
-pack;
-end
-fclose(FID);
+% while ~feof(fid)
+% MTL_lin=fgetl(fid);
+% patron=MTL_lin;
+% k_str=strfind(patron,str);
+% n= length(k_str);
+% MTLDIR=MTL_lin(1:k_str(length(k_str)));
+% NDVI=ndvi(BaseDir,MTLDIR,savemat,Proceso);
+% pack;
+% end
+% fclose(FID);
