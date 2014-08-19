@@ -14,7 +14,7 @@ Landsat=5;
 Carpeta_img=strcat(BaseDir,'/img_',Nombre_Proceso);
 %Nombres bandas:[blue,green,red,NIR,SWIR,-]
 hemisferio='S';
-%reflactancia NIR:R 1
+%reflactancia NIR:R1
 Banda=4;
 [R_l(:,:,1),L_l(:,:,1),DN7(:,:,1),UTM,COD_SAT_IMG,INFO.nir,R.nir]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);
 %reflactancia ROJA:R 2
@@ -22,7 +22,7 @@ Banda=3;
 [R_l(:,:,2),L_l(:,:,2),DN7(:,:,2),UTM,COD_SAT_IMG,INFO.red,R.red]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);
 R_l(:,:,3)=zeros(size(R_l(:,:,1)));
 R_l(:,:,4)=zeros(size(R_l(:,:,1)));
-
+R_l(:,:,5)=zeros(size(R_l(:,:,1)));
 for i=1:m
     switch INDICES{1,i}
         case 'TGDVI'
@@ -33,6 +33,9 @@ for i=1:m
         case {'NDWI','MSI','II'}
         Banda=5;
         [R_l(:,:,4),L_l(:,:,4),DN7(:,:,4),UTM,COD_SAT_IMG,INFO.swir,R.swir]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);
+        case 'NDSI'
+        Banda=2;
+        [R_l(:,:,5),L_l(:,:,5),DN7(:,:,5),UTM,COD_SAT_IMG,INFO.swir,R.swir]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);            
     end
 end
 
@@ -112,7 +115,11 @@ for i=1:m
             IndiceVegetacion.MSI=R_l(:,:,4)./R_l(:,:,1);
        case 'II'
             IndiceVegetacion.II=(R_l(:,:,1)-R_l(:,:,4))./(R_l(:,:,1)+R_l(:,:,4));
-            
+       case 'NDSI'
+            Numerador=R_l(:,:,5)-R_l(:,:,4);
+            Denominador=R_l(:,:,5)+R_l(:,:,4);
+            IndiceVegetacion.NDSI=Numerador./Denominador;
+            INFO_x=INFO.ndsi;            
    end
 
 

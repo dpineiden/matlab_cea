@@ -1,5 +1,5 @@
-%INDICES={'NDVI','SR','NDWI','SAVI_03','MSI','II'};%
-INDICES={'NDVI','NDWI','SAVI_03'};%
+%INDICES={'NDVI','SR','NDWI','SAVI_03','MSI','II','NDSI'};%
+INDICES={'NDVI'};%
 Carpeta_output='Output';
 %INDICES={'NDVI','NDWI'};
 %programa que lee línea a línea el LOG MTL
@@ -65,6 +65,4 @@ for i=1:I-1
        fclose(getfield(FID,nombre_indice));        
     end
 end
-
-
 toc

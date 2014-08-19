@@ -2,6 +2,9 @@
 cantidad_unos=[];
 recurrencia=Porcentaje_Recurrencia;
 hectarea=10000;
+dir_zonas='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/Output/Plots/zonas_veg'
+cd(dir_zonas)
+A_media=[]
 for g=1:Cantidad_indices_analisis
     for s=1:Cantidad_secciones   
             matriz=IndiceUmbral{g}.Sector{s}.Matriz_on;
@@ -9,8 +12,8 @@ for g=1:Cantidad_indices_analisis
             seccion{g,s}.area_porcentual=suma_matriz/Cantidad_muestras;
             Q=seccion{g,s}.area_porcentual;
             %ahora obtener aquellos puntos cuya recurrencia-permanencia sea .5 
-            Q(Q>=recurrencia(s))=1;
             Q(Q<recurrencia(s))=0;
+            Q(Q>=recurrencia(s))=1;
             %obtener el area           
             cantidad_sobre_recurrencia=numel(Q(Q>=1));
             area_media(s)=cantidad_sobre_recurrencia*p^2/hectarea;
@@ -20,8 +23,18 @@ end
 A_media
 %%graficar en escala de colores
 for s=1:Cantidad_secciones   
-figure;
-imagesc(seccion{g,s}.area_porcentual);
+figura=figure;
+[a_tot,b_tot,c_tot]=size(Recurrencia{g,s}.Matriz_On);
+imagen=sum((Recurrencia{g,s}.Matriz_On),3)/c_tot;
+limit_recurrencia{s}=[min(imagen),max(imagen)];
+imagesc(imagen);
+axis image
+%set(gcf, 'Position', get(0,'Screensize')); 
+set(gcf,'PaperPositionMode','auto')    
+set(figura,'PaperUnits','centimeters'); % f1 es figure(1)
+set(figura,'PaperSize',[16 12]); %todo esto esta en centimetros: ancho y alto
+set(figura,'PaperPosition',[0 0 16 12]); % los primeros números son xo=0 e yo=0, y luego ancho y alto del papel en cm
+print(figura,'-djpeg','-r600',['zona_recurrencia_sector' num2str(Secciones{s}) '.jpg'])   
 end
 
 % %Pasar a video el ciclo completo

@@ -12,8 +12,8 @@ Recurrencia=[]
 %El umbral de corte determinado es para cada sector, dado el tipo de
 %vegetacion
 %Porcentaje_Recurrencia=[.75,.85,.958,.75,.9212];
-Porcentaje_Recurrencia=[.6,.6,.6,.6,.6];
-umbral_corte=[.32,.46,.52,.32,.48];
+Porcentaje_Recurrencia=[.68,.73,.83,.65,.83];
+umbral_corte=[.20,.24,.32,.20,.24];
 p=30;
 %Entonces, hay una asociación entre los indices de umbral de corte con la
 %seccion
@@ -43,6 +43,7 @@ for s=1:Cantidad_secciones
    for m=1:Cantidad_muestras
        IndiceUmbral{g}.Sector{s}.Matriz_on(:,:,m)=y{g}.matriz_on{m,s}.umbral(:,:,B_umbral(s));
        IndiceUmbral{g}.Sector{s}.fecha(m,:)=[fecha.year(m),fecha.day(m)];
+       IndiceUmbral{g}.Sector{s}.area(m)=y{g}.area_ha_indice{m,s}.umbral(B_umbral(s))
    end
     IndiceUmbral{g}.Sector{s}.fecha_juliana=[juliandate(fecha.year,0,0)-juliandate(0,0,0),fecha.day];   
 end
@@ -71,11 +72,16 @@ posicion_siguiente_iteracion=1;
 while i<=length(Fechas)
     indice_umbral=IndiceUmbral{g}.Sector{s}.Matriz_on(:,:,posicion_siguiente_iteracion:i);
     [a_umbral b_umbral c_umbral]=size(indice_umbral);
-    if s==20
+    if s==20%mostrar cada toma en figure
     figure
     imshow(indice_umbral(:,:,1))
     end
     size_umbral=size(indice_umbral);
+%     
+%     for qu=1:length(umbral)
+% sector{s}.Z(:,qu) =tsmovavg(sector{s}.variable_y(:,qu),'s',20,1); %smooth(variable_x,variable_y(:,s),60,'sgolay');
+%     end
+
     Recurrencia{g,s}.Activadas(:,:,i-posicion_inicial_iteracion+1)=sum(indice_umbral,3);
     umbral_activado=Recurrencia{g,s}.Activadas(:,:,i-posicion_inicial_iteracion+1);
     %obtener la cantidad de muestras en ultimos 10 años
@@ -96,7 +102,7 @@ while i<=length(Fechas)
     Recurrencia{g,s}.Area(i-posicion_inicial_iteracion+1)=Area;
     Recurrencia{g,s}.Area_Total=Atotal;
     Recurrencia{g,s}.Percent(i-posicion_inicial_iteracion+1)=Apercent;
-    Recurrencia{g,s}.Matriz_On(:,:,i-posicion_inicial_iteracion+1)=Matriz_On;
+    Recurrencia{g,s}.Matriz_On(:,:,i-posicion_inicial_iteracion+1)=Matriz_On;%viene de Recurrencia{g,s}.Activadas
     %se tendrá finalmente un vector con los valores de area cubierta en ese
     %sector durante el tiempo de 10 años con una recurrencia de.65
     %obtener fecha de la muestra actual 'i' año+dia
@@ -110,6 +116,8 @@ while i<=length(Fechas)
     i=1+i;
 end
 %cierre iteracion
+    Recurrencia{g,s}.Activadas_Z =tsmovavg(IndiceUmbral{g}.Sector{s}.area,'s',years_estudio*4,2); %smooth(variable_x,variable_y(:,s),60,'sgolay');
+
 end
 end
 %se tienen las matrices activades

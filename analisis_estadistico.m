@@ -7,27 +7,29 @@ close all
     directorio='/home/david/Documents/Proyectos_CEA/CNM008/Codigo_Mat/Output/';
     proyecto='ANG006_IMG';
   directorio_tiff= strcat(directorio,proyecto,'/TIFF/');
-    indices=upper({'ii','msi','ndvi','ndwi','savi_03','savi_05','sr'});
+    indices=upper({'ii','msi','ndvi','ndwi','savi_03','savi_05','sr','ndsi'});
     %%indices a analizar
     ind_analisis=[3];%o [3 5 7] equivale a: ndvi ,savi_03 y sr, se seleccionan los indicies a estudiar
     minmax_i=1;
     %entregar lisas UTM_X UTM_y (ej 3 recuadros)
     Secciones={1,2,3,5,7};
     UTM_x{1}=[380877,381651];
-    UTM_x{2}=[380264,380837];
-    UTM_x{3}=[378337,379800];
-    UTM_x{4}=[381768,382629];
-    UTM_x{5}=[378384,380301];
+    UTM_x{2}=[380264,380784];
+    UTM_x{3}=[378335,378992.603];
+    UTM_x{4}=[382002,382335];
+    UTM_x{5}=[378808,379906];
     UTM_y{1}=[6323715,6323162]-10000000;
-    UTM_y{2}=[6320976,6319980]-10000000;
-    UTM_y{3}=[6318268,6315945]-10000000;    
-    UTM_y{4}=[6317016,6315815]-10000000;
-    UTM_y{5}=[6312291,6311149]-10000000;
+    UTM_y{2}=[6320976,6320299]-10000000;
+    UTM_y{3}=[6317413,6316736.533]-10000000;    
+    UTM_y{4}=[6316980,6316318]-10000000;
+    UTM_y{5}=[6311844,6311204]-10000000;
+%este_inf_dere: 378992,603
+%este_inf_dere: 6316736,533
     %tamaño
     [n_UTMx, m_UTMx]=size(UTM_x);
     %generar un valor correpondiente a porcentajes de analisis:
     %los valores a transformar son cada a% para hacer histograma de barras
-    umbral=[.3:.02:.6];
+    umbral=[.18:.02:.56];
     
 for g=1:length(ind_analisis)
     Atiff=[];
@@ -217,8 +219,6 @@ for g=1:length(ind_analisis)
             media_armonica=harmmean(double(micro_imagen(:)));
             curtosis=kurtosis(double(micro_imagen(:)));
             desviacion_estandar=std(double(micro_imagen(:)));
-            
-
             %end
             %minimo
             corte_multi.indice{g}.minimo{t,k}=minimo;

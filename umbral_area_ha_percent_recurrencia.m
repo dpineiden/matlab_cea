@@ -11,12 +11,12 @@ Area_Total=Total_pixeles*p^2/hectarea;
 for i=1:u
     elemento_umbral=umbral(i);
     if strcmp(se_requiere,'superior')
-    Q(Q>=elemento_umbral)=1;
-    Q(Q<elemento_umbral)=0;
+    Q(Q<=elemento_umbral-.01)=0;
+    Q(Q>elemento_umbral-.01)=1;
     elseif strcmp(se_requiere,'inferior')
     Pixeles_on=(I(I<elemento_umbral));    
-    Q(Q>=elemento_umbral)=1;
-    Q(Q<elemento_umbral)=0;
+    Q(Q<=elemento_umbral+.01)=0;
+    Q(Q>elemento_umbral+.01)=1;
     end
     sumaQ=sum(Q(:));
     Area(i)=(sumaQ*p^2/hectarea);

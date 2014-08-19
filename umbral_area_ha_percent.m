@@ -9,15 +9,15 @@ Total_pixeles=numel(I);
 hectarea=10000;
 Area_Total=Total_pixeles*p^2/hectarea;
 for i=1:u
-    elemento_umbral=umbral(i);
+    elemento_umbral=umbral(i)
     if strcmp(se_requiere,'superior')
-    Pixeles_on=numel(I(I>elemento_umbral-0.1));
-    Q(Q>=elemento_umbral)=1;
+    Pixeles_on=numel(I(I>elemento_umbral-0.01));
     Q(Q<elemento_umbral)=0;
+    Q(Q>=elemento_umbral)=1;
     elseif strcmp(se_requiere,'inferior')
-    Pixeles_on=(I(I<elemento_umbral-0.1));    
-    Q(Q>=elemento_umbral)=1;
+    Pixeles_on=(I(I<elemento_umbral+0.01));   
     Q(Q<elemento_umbral)=0;
+    Q(Q>=elemento_umbral)=1;
     end
     Area(i)=Pixeles_on*p^2/hectarea;
     Percent(i)=Pixeles_on/Total_pixeles;

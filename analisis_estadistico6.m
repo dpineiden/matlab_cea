@@ -9,7 +9,6 @@ variable_x=year_julian+fecha.day;
 for g=1:length(ind_analisis)%length(ind_analisis)
     indice_datos=indices{ind_analisis(g)};
    for  c=[21]%[8,9,10,11]% 1 minimo a curtosis en valores 2^n-1 SR_03 da valores muy pequeños, se usa 8 a 16, si se usan otros indices usar 21 a 29
-
             if c>=24   
             estadistico=nombres_campos{c}(5:end);%se recorta nombre la parte ind_
             else
@@ -68,8 +67,8 @@ end
 %                   Z =tsmovavg(variable_y(:,s),'t',5,1); %smooth(variable_x,variable_y(:,s),60,'sgolay');
                 figura=figure('units','normalized','outerposition',[0 0 1 1]);
                 variable_y(:,1);
+                  %plot(variable_x,sector{s}.variable_y,'<-');
                   plot(variable_x,sector{s}.variable_y,'<', variable_x,sector{s}.Z,'k-');
-
      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           
                 %%sector para insertar cruce real
 sector_particular=find(cell2mat(Ayl.nro)==Secciones{s})
@@ -111,14 +110,19 @@ end%if
                 set(gcf, 'Position', get(0,'Screensize')); 
                 set(gcf,'PaperPositionMode','auto');
                 datetick('x','mm/yyyy','keepticks');
-                axis([primera_fecha ultima_fecha  0 maximo_valor+10])
+                axis([primera_fecha ultima_fecha  0 maximo_valor*5])
                 xlabel('Fecha');                                     
                 ylabel([upper(string_estadistico(1)) string_estadistico(2:7)]);
                 titulo=[ upper(indice_datos) '-' upper(string_estadistico(1)) string_estadistico(2:end) '- Sector ' num2str(Secciones{s}) '- Periodo [' num2str(fecha.year(1)) ';' num2str(fecha.year(end))  ']' ];
                 %title(titulo);
-                set(findall(figura,'type','text'),'fontSize',11,'fontWeight','bold')
-                set(0,'defaultAxesFontName', 'arial')
-                set(0,'defaultTextFontName', 'arial')
+                %set(findall(figura,'type','text'),'fontSize',11,'fontWeight','bold')
+    set(gca,'FontName',Fn,'FontSize',Fs)
+    set(gcf, 'Position', get(0,'Screensize')); 
+    set(figura,'PaperUnits','centimeters'); % f1 es figure(1)
+ set(figura,'PaperSize',[16 12]); %todo esto esta en centimetros: ancho y alto
+ set(figura,'PaperPosition',[0 0 16 12]); % los primeros números son xo=0 e yo=0, y luego ancho y alto del papel en cm
+ image_name=['figura_cruce_foto_indice_' indice_datos '_sector_' num2str(Secciones{s}) '-'  estadistico]
+ print(figura,'-djpeg','-r600',[image_name '.jpg'])   
 
                 %h_legend=legend({['Sector '  num2str(Secciones{s})], ['Linea de tendencia y(x) =' num2str(p(1)) '*x+' num2str(p(2))],'Media Temporal'});
                        %        set(h_legend,'FontSize',10);

@@ -16,12 +16,9 @@ final=[sector num2str(num_secciones)];
 for g=1:Cantidad_indices_analisis
          
     for s=1:Cantidad_secciones    
-        figura=figure('units','normalized','outerposition',[0 0 1 1]);     
+        figura=figure('units','normalized','outerposition',[0 0 1 1]);
+        plot(Recurrencia{g,s}.valores_x_recurrencia,Recurrencia{g,s}.Area,[caracter{s} '-'],'Color',color{s})
 
-
-        %plot(Recurrencia{g,s}.valores_x_recurrencia,Recurrencia{g,s}.Area,[caracter{s} '-'],'Color',color{s})
-        hold on
-plot(Recurrencia{g,s}.valores_x_recurrencia,Recurrencia{g,s}.Activadas_Z(end-75:end),[caracter{s} '-'],'Color','red')
    % h_legend=legend(final);
     xlabel('Fecha');
     ylabel('Area [ha]');
