@@ -12,7 +12,7 @@ Recurrencia=[]
 %El umbral de corte determinado es para cada sector, dado el tipo de
 %vegetacion
 %Porcentaje_Recurrencia=[.75,.85,.958,.75,.9212];
-Porcentaje_Recurrencia=[.68,.73,.83,.65,.83];
+Porcentaje_Recurrencia=[.68,.73,.83,.65,.835];
 umbral_corte=[.20,.24,.32,.20,.24];
 p=30;
 %Entonces, hay una asociación entre los indices de umbral de corte con la

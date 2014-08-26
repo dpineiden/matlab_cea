@@ -27,6 +27,25 @@ figura=figure;
 [a_tot,b_tot,c_tot]=size(Recurrencia{g,s}.Matriz_On);
 imagen=sum((Recurrencia{g,s}.Matriz_On),3)/c_tot;
 limit_recurrencia{s}=[min(imagen),max(imagen)];
+%%pasar a shape imagen
+% %conseguir vvalor
+% Irs=reshape(imagen,numel(imagen),1);
+% %conseguir v lat, rescatamos los limites de cada sector
+% A=corte_multi.indice{g}.Rc{1}{s}
+% %conseguir v lon
+% Xlim=A.XLimWorld;
+% x_lon=[Xlim(1):30:Xlim(2)]';
+% %
+% Ylim=A.YLimWorld;
+% y_lat=[Ylim(1):30:Ylim(2)]';
+% %Valor de corte
+% corte=umbral_corte(s);
+% %orientacion: superior
+% orientacion='superior';
+% nombre_archivo=['area_recurrente_sector_' num2str(Secciones{s})];
+% %%%%% vetor a shape
+% S_shape=vector2shape(Irs,x_lon,y_lat,nombre_archivo,corte,orientacion);
+% %%%%
 imagesc(imagen);
 axis image
 %set(gcf, 'Position', get(0,'Screensize')); 

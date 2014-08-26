@@ -35,7 +35,9 @@ for i=1:m
         [R_l(:,:,4),L_l(:,:,4),DN7(:,:,4),UTM,COD_SAT_IMG,INFO.swir,R.swir]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);
         case 'NDSI'
         Banda=2;
-        [R_l(:,:,5),L_l(:,:,5),DN7(:,:,5),UTM,COD_SAT_IMG,INFO.swir,R.swir]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);            
+        [R_l(:,:,5),L_l(:,:,5),DN7(:,:,5),UTM,COD_SAT_IMG,INFO.ndsi,R.ndsi]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);            
+        Banda=5;
+        [R_l(:,:,4),L_l(:,:,4),DN7(:,:,4),UTM,COD_SAT_IMG,INFO.swir,R.swir]=reflactancia(Banda,Landsat,Carpeta_img,MTLDIR,hemisferio,Nombre_Proceso,CorteX,CorteY);
     end
 end
 
@@ -47,11 +49,11 @@ IndiceVegetacion.TNDI=0;
 IndiceVegetacion.NDWI=0;
 IndiceVegetacion.EVI=0;
 IndiceVegetacion.TGDVI=0;
-
 IndiceVegetacion.SAVI_03=0;
 IndiceVegetacion.SAVI_05=0;
 IndiceVegetacion.MSI=0;
 IndiceVegetacion.II=0;
+IndiceVegetacion.NDSI=0;
 for i=1:m
    switch  INDICES{1,i}
        case 'NDVI'
@@ -119,7 +121,7 @@ for i=1:m
             Numerador=R_l(:,:,5)-R_l(:,:,4);
             Denominador=R_l(:,:,5)+R_l(:,:,4);
             IndiceVegetacion.NDSI=Numerador./Denominador;
-            INFO_x=INFO.ndsi;            
+            INFO_x=INFO.swir;            
    end
 
 
